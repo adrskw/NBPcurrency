@@ -14,17 +14,32 @@ namespace NBPcurrency
         public decimal StandardDeviation { get; }
         public Dictionary<DateTime, decimal> DatesOfBiggestExchangeRateDifference { get; }
 
-        private enum AvailableCurrencies
+        public Currency(string currency, DateTime startDate, DateTime endDate)
         {
-            USD,
-            EUR,
-            CHF,
-            GBP
-        };
+            if (currency == string.Empty)
+            {
+                throw new ArgumentException("No currency provided");
+            }
+            else if (Enum.IsDefined(typeof(AvailableCurrencies), currency) == false)
+            {
+                throw new ArgumentException("Wrong currency provided");
+            }
+            else if (startDate > DateTime.Now || endDate > DateTime.Now)
+            {
+                throw new ArgumentException("Given dates are greater than the current date");
+            }
+            else
+            {
+                if (startDate > endDate)
+                {
+                    DateTime temp = endDate;
+                    endDate = startDate;
+                    startDate = temp;
+                }
 
-        public Currency()
-        {
-
+                AvailableCurrencies enumCurrency = (AvailableCurrencies)Enum.Parse(typeof(AvailableCurrencies), currency);
+                ExchangeRates exchangeRates = new ExchangeRates(enumCurrency, startDate, endDate);
+            }
         }
     }
 }
