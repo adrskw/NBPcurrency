@@ -9,6 +9,8 @@ namespace NBPcurrency
     public class Currency
     {
         public AvailableCurrencies CurrencyCode { get; }
+        public DateTime StartDate { get; }
+        public DateTime EndDate { get; }
         public decimal AverageBuyExchangeRate { get => exchangeRates.BuyPrices.Average(); }
         public decimal MinimumBuyExchangeRate { get => exchangeRates.BuyPrices.Min(); }
         public decimal MaximumBuyExchangeRate { get => exchangeRates.BuyPrices.Max(); }
@@ -39,7 +41,9 @@ namespace NBPcurrency
                 return (decimal)Math.Sqrt((double)(sumOfSquaresOfDifferences / exchangeRates.SellPrices.Count));
             }
         }
-        public SortedDictionary<DateTime, decimal> DatesOfBiggestSellExchangeRateDifference { get
+        public SortedDictionary<DateTime, decimal> DatesOfBiggestSellExchangeRateDifference 
+        {
+            get
             {
                 return exchangeRates.FindBiggestDifference(exchangeRates.dateSellPrices);
             }
@@ -47,14 +51,14 @@ namespace NBPcurrency
 
         private ExchangeRates exchangeRates;
 
-        public Currency(string currency, DateTime startDate, DateTime endDate)
+        public Currency(string currencyCode, DateTime startDate, DateTime endDate)
         {
-            if (currency == string.Empty)
+            if (currencyCode == string.Empty)
             {
                 throw new ArgumentException("No currency provided");
             }
             
-            if (Enum.IsDefined(typeof(AvailableCurrencies), currency) == false)
+            if (Enum.IsDefined(typeof(AvailableCurrencies), currencyCode) == false)
             {
                 throw new ArgumentException("Wrong currency provided");
             }
@@ -71,8 +75,10 @@ namespace NBPcurrency
                 startDate = temp;
             }
 
-            AvailableCurrencies enumCurrency = (AvailableCurrencies)Enum.Parse(typeof(AvailableCurrencies), currency);
-            exchangeRates = new ExchangeRates(enumCurrency, startDate, endDate);
+            StartDate = startDate;
+            EndDate = endDate;
+            CurrencyCode = (AvailableCurrencies)Enum.Parse(typeof(AvailableCurrencies), currencyCode);
+            exchangeRates = new ExchangeRates(CurrencyCode, StartDate, EndDate);
         }
     }
 }
