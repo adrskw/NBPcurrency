@@ -49,7 +49,8 @@ namespace NBPcurrency
             }
         }
 
-        private ExchangeRates exchangeRates;
+        private readonly ExchangeRates exchangeRates;
+        private readonly DateTime startDateOfCollectingData = new DateTime(2002, 1, 2);
 
         public Currency(string currencyCode, DateTime startDate, DateTime endDate)
         {
@@ -73,6 +74,11 @@ namespace NBPcurrency
                 DateTime temp = endDate;
                 endDate = startDate;
                 startDate = temp;
+            }
+
+            if (startDate < startDateOfCollectingData)
+            {
+                throw new ArgumentException("Given starting date is less than the beginning date of data collection (2002-01-02)");
             }
 
             StartDate = startDate;
