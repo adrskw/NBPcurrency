@@ -147,7 +147,12 @@ namespace NBPcurrency
 
             XmlNode buyPriceNode = doc.SelectSingleNode("/tabela_kursow/pozycja[kod_waluty='" + CurrencyCode.ToString() + "']/kurs_kupna");
             XmlNode sellPriceNode = doc.SelectSingleNode("/tabela_kursow/pozycja[kod_waluty='" + CurrencyCode.ToString() + "']/kurs_sprzedazy");
-            
+
+            if (buyPriceNode == null || sellPriceNode == null)
+            {
+                throw new XmlException("Cannot download exchange rates");
+            }
+
             decimal buyPrice = decimal.Parse(buyPriceNode.InnerText);
             decimal sellPrice = decimal.Parse(sellPriceNode.InnerText);
             
