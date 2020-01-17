@@ -8,11 +8,43 @@ namespace NBPcurrency
 {
     public class Currency
     {
-        public decimal AverageExchangeRate { get; }
-        public decimal MinimumExchangeRate { get; }
-        public decimal MaximumExchangeRate { get; }
-        public decimal StandardDeviation { get; }
-        public Dictionary<DateTime, decimal> DatesOfBiggestExchangeRateDifference { get; }
+        public decimal AverageBuyExchangeRate { get => exchangeRates.BuyPrices.Average(); }
+        public decimal MinimumBuyExchangeRate { get => exchangeRates.BuyPrices.Min(); }
+        public decimal MaximumBuyExchangeRate { get => exchangeRates.BuyPrices.Max(); }
+        public decimal StandardDeviationBuyExchangeRate
+        {
+            get
+            {
+                decimal sumOfSquaresOfDifferences = exchangeRates.BuyPrices.Sum(val => (val - AverageBuyExchangeRate) * (val - AverageBuyExchangeRate));
+                return (decimal)Math.Sqrt((double)(sumOfSquaresOfDifferences / exchangeRates.BuyPrices.Count));
+            }
+        }
+        public SortedDictionary<DateTime, decimal> DatesOfBiggestBuyExchangeRateDifference
+        {
+            get
+            {
+                return exchangeRates.FindBiggestDifference(exchangeRates.dateBuyPrices);
+            }
+        }
+
+        public decimal AverageSellExchangeRate { get => exchangeRates.SellPrices.Average(); }
+        public decimal MinimumSellExchangeRate { get => exchangeRates.SellPrices.Min(); }
+        public decimal MaximumSellExchangeRate { get => exchangeRates.SellPrices.Max(); }
+        public decimal StandardDeviationSellExchangeRate
+        {
+            get
+            {
+                decimal sumOfSquaresOfDifferences = exchangeRates.SellPrices.Sum(val => (val - AverageSellExchangeRate) * (val - AverageSellExchangeRate));
+                return (decimal)Math.Sqrt((double)(sumOfSquaresOfDifferences / exchangeRates.SellPrices.Count));
+            }
+        }
+        public SortedDictionary<DateTime, decimal> DatesOfBiggestSellExchangeRateDifference { get
+            {
+                return exchangeRates.FindBiggestDifference(exchangeRates.dateSellPrices);
+            }
+        }
+
+        private ExchangeRates exchangeRates;
 
         public Currency(string currency, DateTime startDate, DateTime endDate)
         {
@@ -20,26 +52,26 @@ namespace NBPcurrency
             {
                 throw new ArgumentException("No currency provided");
             }
-            else if (Enum.IsDefined(typeof(AvailableCurrencies), currency) == false)
+            
+            if (Enum.IsDefined(typeof(AvailableCurrencies), currency) == false)
             {
                 throw new ArgumentException("Wrong currency provided");
             }
-            else if (startDate > DateTime.Now || endDate > DateTime.Now)
+             
+            if (startDate > DateTime.Now || endDate > DateTime.Now)
             {
                 throw new ArgumentException("Given dates are greater than the current date");
             }
-            else
-            {
-                if (startDate > endDate)
-                {
-                    DateTime temp = endDate;
-                    endDate = startDate;
-                    startDate = temp;
-                }
 
-                AvailableCurrencies enumCurrency = (AvailableCurrencies)Enum.Parse(typeof(AvailableCurrencies), currency);
-                ExchangeRates exchangeRates = new ExchangeRates(enumCurrency, startDate, endDate);
+            if (startDate > endDate)
+            {
+                DateTime temp = endDate;
+                endDate = startDate;
+                startDate = temp;
             }
+
+            AvailableCurrencies enumCurrency = (AvailableCurrencies)Enum.Parse(typeof(AvailableCurrencies), currency);
+            exchangeRates = new ExchangeRates(enumCurrency, startDate, endDate);
         }
     }
 }
