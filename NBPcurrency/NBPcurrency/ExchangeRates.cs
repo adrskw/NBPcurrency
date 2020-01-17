@@ -83,7 +83,6 @@ namespace NBPcurrency
 
             for (DateTime date = StartDate; date <= EndDate; date = date.AddDays(1))
             {
-                d
                 allDates.Add(date);
             }
 
