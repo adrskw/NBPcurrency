@@ -8,6 +8,7 @@ namespace NBPcurrency
 {
     public class Currency
     {
+        public AvailableCurrencies CurrencyCode { get; }
         public decimal AverageBuyExchangeRate { get => exchangeRates.BuyPrices.Average(); }
         public decimal MinimumBuyExchangeRate { get => exchangeRates.BuyPrices.Min(); }
         public decimal MaximumBuyExchangeRate { get => exchangeRates.BuyPrices.Max(); }

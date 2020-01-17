@@ -12,7 +12,7 @@ namespace NBPcurrency
 {
     class ExchangeRates
     {
-        public AvailableCurrencies Currency { get; }
+        public AvailableCurrencies CurrencyCode { get; }
         public DateTime StartDate { get; }
         public DateTime EndDate { get; }
         public List<decimal> BuyPrices { get => dateBuyPrices.Values.ToList(); }
@@ -22,9 +22,9 @@ namespace NBPcurrency
 
         private Dictionary<int, string> dirFilesContent = new Dictionary<int, string>();
 
-        public ExchangeRates(AvailableCurrencies currency, DateTime startDate, DateTime endDate)
+        public ExchangeRates(AvailableCurrencies currencyCode, DateTime startDate, DateTime endDate)
         {
-            Currency = currency;
+            CurrencyCode = currencyCode;
             StartDate = startDate;
             EndDate = endDate;
 
@@ -83,7 +83,7 @@ namespace NBPcurrency
 
             for (DateTime date = StartDate; date <= EndDate; date = date.AddDays(1))
             {
-                Console.WriteLine(date.ToString("yyMMdd"));
+                d
                 allDates.Add(date);
             }
 
@@ -146,8 +146,8 @@ namespace NBPcurrency
             reader.Read();
             doc.Load(reader);
 
-            XmlNode buyPriceNode = doc.SelectSingleNode("/tabela_kursow/pozycja[kod_waluty='" + Currency.ToString() + "']/kurs_kupna");
-            XmlNode sellPriceNode = doc.SelectSingleNode("/tabela_kursow/pozycja[kod_waluty='" + Currency.ToString() + "']/kurs_sprzedazy");
+            XmlNode buyPriceNode = doc.SelectSingleNode("/tabela_kursow/pozycja[kod_waluty='" + CurrencyCode.ToString() + "']/kurs_kupna");
+            XmlNode sellPriceNode = doc.SelectSingleNode("/tabela_kursow/pozycja[kod_waluty='" + CurrencyCode.ToString() + "']/kurs_sprzedazy");
             
             decimal buyPrice = decimal.Parse(buyPriceNode.InnerText);
             decimal sellPrice = decimal.Parse(sellPriceNode.InnerText);
