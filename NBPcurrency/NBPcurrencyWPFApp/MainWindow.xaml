@@ -5,8 +5,96 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NBPcurrencyWPFApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="NBPcurrency" MinHeight="500" MinWidth="800" Height="500" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock TextAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="SteelBlue">NBP currency</TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Margin="10 20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Margin="0 0 0 10" HorizontalAlignment="Right">Currency:</Label>
+                    <ComboBox x:Name="ComboBoxCurrencyCode" SelectedIndex="0" Grid.Column="1" Margin="0 0 0 10" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5">
+                        <ComboBoxItem>USD</ComboBoxItem>
+                        <ComboBoxItem>EUR</ComboBoxItem>
+                        <ComboBoxItem>CHF</ComboBoxItem>
+                        <ComboBoxItem>GBP</ComboBoxItem>
+                    </ComboBox>
+                    <Label Grid.Row="1" Margin="0 0 0 10" HorizontalAlignment="Right">Starting Date:</Label>
+                    <TextBox x:Name="TextBoxStartDate" Grid.Column="1" Grid.Row="1" Margin="0 0 0 10" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5"></TextBox>
+                    <Label Grid.Row="2" Margin="0 0 0 10" HorizontalAlignment="Right">Ending Date:</Label>
+                    <TextBox x:Name="TextBoxEndDate" Grid.Column="1" Grid.Row="2" Margin="0 0 0 10" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5"></TextBox>
+                    <Button x:Name="ButtonDownloadData" Grid.ColumnSpan="2" Grid.Row="3" Background="CadetBlue" Foreground="#304f50" FontSize="18" FontWeight="Bold" Content="Download Data" Margin="20 10" Padding="5" Click="ButtonDownloadData_Click"></Button>
+                </Grid>
+                <StackPanel VerticalAlignment="Bottom" Margin="5 15">
+                    <TextBlock TextAlignment="Right" FontStyle="Italic" Foreground="Gray">Format of date: yyyy-mm-dd</TextBlock>
+                    <TextBlock TextAlignment="Right" FontStyle="Italic" Foreground="Gray">The beggining of collecting data: 2002-01-02</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="0 20">
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="0 10 0 0">
+                    <TextBlock FontSize="20" FontWeight="Bold" Foreground="#5a91bf" HorizontalAlignment="Center">RESULTS</TextBlock>
+                    <Grid x:Name="GridResults" Grid.Column="1" Margin="10 0" Visibility="Hidden">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.ColumnSpan="2">
+                            <TextBlock FontSize="15" FontWeight="Bold" Foreground="#7eaacd" HorizontalAlignment="Center">Buy Exchange Rates</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="1" Margin="0 0 5 0">
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Average:</TextBlock>
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Standard Deviation:</TextBlock>
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Minimum:</TextBlock>
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Maximum:</TextBlock>
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Dates of the greatest<LineBreak/>exchange rate differences:</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="1" Margin="5 0 0 0">
+                            <TextBlock x:Name="TextBlockAverageBuyExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                            <TextBlock x:Name="TextBlockStandardDeviationBuyExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                            <TextBlock x:Name="TextBlockMinimumBuyExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                            <TextBlock x:Name="TextBlockMaximumBuyExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                            <TextBlock x:Name="TextBlockBiggestDifferencesOfBuyExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="0 10 0 0">
+                            <TextBlock FontSize="15" FontWeight="Bold" Foreground="#7eaacd" HorizontalAlignment="Center">Sell Exchange Rates</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="3" Margin="0 0 5 0">
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Average:</TextBlock>
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Standard Deviation:</TextBlock>
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Minimum:</TextBlock>
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Maximum:</TextBlock>
+                            <TextBlock TextAlignment="Right" Margin="0 0 0 5" FontSize="13" FontWeight="Bold" Foreground="#2b506e">Dates of the greatest<LineBreak/>exchange rate differences:</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="3" Margin="5 0 0 0">
+                            <TextBlock x:Name="TextBlockAverageSellExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                            <TextBlock x:Name="TextBlockStandardDeviationSellExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                            <TextBlock x:Name="TextBlockMinimumSellExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                            <TextBlock x:Name="TextBlockMaximumSellExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                            <TextBlock x:Name="TextBlockBiggestDifferencesOfSellExchangeRate" Margin="0 0 0 5" FontSize="13" Foreground="#2b506e"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>
