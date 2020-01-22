@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NBPcurrency
 {
+    /// <summary>
+    /// Dostępne waluty
+    /// </summary>
     public enum AvailableCurrencies
     {
         USD,

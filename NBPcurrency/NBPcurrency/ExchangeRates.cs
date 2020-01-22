@@ -12,16 +12,49 @@ namespace NBPcurrency
 {
     class ExchangeRates
     {
+        /// <summary>
+        /// Kod waluty
+        /// </summary>
         public AvailableCurrencies CurrencyCode { get; }
+
+        /// <summary>
+        /// Data początku zbierania danych
+        /// </summary>
         public DateTime StartDate { get; }
+
+        /// <summary>
+        /// Data końca zbierania danych
+        /// </summary>
         public DateTime EndDate { get; }
+
+        /// <summary>
+        /// Lista wszystkich kursów kupna
+        /// </summary>
         public List<decimal> BuyPrices { get => dateBuyPrices.Values.ToList(); }
+
+        /// <summary>
+        /// Lista wszystkich kursów sprzedaży
+        /// </summary>
         public List<decimal> SellPrices { get => dateSellPrices.Values.ToList(); }
+
+        /// <summary>
+        /// Lista kursów kupna dla danej daty
+        /// </summary>
         public SortedDictionary<DateTime, decimal> dateBuyPrices = new SortedDictionary<DateTime, decimal>();
+
+        /// <summary>
+        /// Lista kursów sprzedaży dla danej daty
+        /// </summary>
         public SortedDictionary<DateTime, decimal> dateSellPrices = new SortedDictionary<DateTime, decimal>();
 
         private Dictionary<int, string> dirFilesContent = new Dictionary<int, string>();
 
+        /// <summary>
+        /// Informacje o kursach wymiany waluty z danego okresu
+        /// </summary>
+        /// <param name="currencyCode">kod waluty (USD, EUR, CHF, GBP)</param>
+        /// <param name="startDate">data początku zbierania danych</param>
+        /// <param name="endDate">data końca zbierania danych</param>
         public ExchangeRates(AvailableCurrencies currencyCode, DateTime startDate, DateTime endDate)
         {
             CurrencyCode = currencyCode;
@@ -44,6 +77,11 @@ namespace NBPcurrency
             }
         }
 
+        /// <summary>
+        /// Znalezienie dat z największą różnicą kursową
+        /// </summary>
+        /// <param name="datePriceData">kursy dla danych dni</param>
+        /// <returns></returns>
         public SortedDictionary<DateTime, decimal> FindBiggestDifference(SortedDictionary<DateTime, decimal> datePriceData)
         {
             SortedDictionary<DateTime, decimal> differenceData = new SortedDictionary<DateTime, decimal>();

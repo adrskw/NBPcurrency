@@ -46,6 +46,10 @@ namespace NBPcurrencyConsoleApp
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// Print information about currency
+        /// </summary>
+        /// <param name="currency"></param>
         private static void PrintInformation(Currency currency)
         {
             Console.WriteLine($"Currency: {currency.CurrencyCode}");

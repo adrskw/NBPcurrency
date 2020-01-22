@@ -8,12 +8,39 @@ namespace NBPcurrency
 {
     public class Currency
     {
+        /// <summary>
+        /// Kod waluty
+        /// </summary>
         public AvailableCurrencies CurrencyCode { get; }
+
+        /// <summary>
+        /// Data początku zbierania danych
+        /// </summary>
         public DateTime StartDate { get; }
+
+        /// <summary>
+        /// Data końca zbierania danych
+        /// </summary>
         public DateTime EndDate { get; }
+
+        /// <summary>
+        /// Średni kurs kupna
+        /// </summary>
         public decimal AverageBuyExchangeRate { get => exchangeRates.BuyPrices.Average(); }
+
+        /// <summary>
+        /// Minimalny kurs kupna
+        /// </summary>
         public decimal MinimumBuyExchangeRate { get => exchangeRates.BuyPrices.Min(); }
+
+        /// <summary>
+        /// Maksymalny kurs kupna
+        /// </summary>
         public decimal MaximumBuyExchangeRate { get => exchangeRates.BuyPrices.Max(); }
+
+        /// <summary>
+        /// Odchylenie standardowe kursu kupna
+        /// </summary>
         public decimal StandardDeviationBuyExchangeRate
         {
             get
@@ -22,6 +49,10 @@ namespace NBPcurrency
                 return (decimal)Math.Sqrt((double)(sumOfSquaresOfDifferences / exchangeRates.BuyPrices.Count));
             }
         }
+
+        /// <summary>
+        /// Daty z największą różnicą kursów kupna
+        /// </summary>
         public SortedDictionary<DateTime, decimal> DatesOfBiggestBuyExchangeRateDifference
         {
             get
@@ -30,9 +61,25 @@ namespace NBPcurrency
             }
         }
 
+
+        /// <summary>
+        /// Średni kurs sprzedaży
+        /// </summary>
         public decimal AverageSellExchangeRate { get => exchangeRates.SellPrices.Average(); }
+
+        /// <summary>
+        /// Minimalny kurs sprzedaży
+        /// </summary>
         public decimal MinimumSellExchangeRate { get => exchangeRates.SellPrices.Min(); }
+
+        /// <summary>
+        /// Maksymalny kurs sprzedaży
+        /// </summary>
         public decimal MaximumSellExchangeRate { get => exchangeRates.SellPrices.Max(); }
+
+        /// <summary>
+        /// Odchylenie standardowe kursu sprzedaży
+        /// </summary>
         public decimal StandardDeviationSellExchangeRate
         {
             get
@@ -41,6 +88,10 @@ namespace NBPcurrency
                 return (decimal)Math.Sqrt((double)(sumOfSquaresOfDifferences / exchangeRates.SellPrices.Count));
             }
         }
+
+        /// <summary>
+        /// Daty z największą różnicą kursów sprzedaży
+        /// </summary>
         public SortedDictionary<DateTime, decimal> DatesOfBiggestSellExchangeRateDifference 
         {
             get
@@ -52,6 +103,12 @@ namespace NBPcurrency
         private readonly ExchangeRates exchangeRates;
         private readonly DateTime startDateOfCollectingData = new DateTime(2002, 1, 2);
 
+        /// <summary>
+        /// Informacje o walucie z danego okresu
+        /// </summary>
+        /// <param name="currencyCode">kod waluty (USD, EUR, CHF, GBP)</param>
+        /// <param name="startDate">data początku zbierania danych</param>
+        /// <param name="endDate">data końca zbierania danych</param>
         public Currency(string currencyCode, DateTime startDate, DateTime endDate)
         {
             if (currencyCode == string.Empty)

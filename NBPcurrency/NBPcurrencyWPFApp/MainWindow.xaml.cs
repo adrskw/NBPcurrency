@@ -57,6 +57,10 @@ namespace NBPcurrencyWPFApp
             }
         }
 
+        /// <summary>
+        /// Wyświetl rezultaty dla danej waluty
+        /// </summary>
+        /// <param name="currency">obiekt waluty</param>
         private void PrintResultData(Currency currency)
         {
             TextBoxStartDate.Text = currency.StartDate.ToString("yyyy-MM-dd");
