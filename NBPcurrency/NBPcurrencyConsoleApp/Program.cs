@@ -42,6 +42,8 @@ namespace NBPcurrencyConsoleApp
             {
                 Console.WriteLine("Only 3 parameters can be specified");
             }
+
+            Console.ReadKey();
         }
 
         private static void PrintInformation(Currency currency)
