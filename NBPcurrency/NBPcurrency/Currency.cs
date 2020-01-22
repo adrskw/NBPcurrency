@@ -138,10 +138,11 @@ namespace NBPcurrency
                 throw new ArgumentException("Given starting date is less than the beginning date of data collection (2002-01-02)");
             }
 
-            StartDate = startDate;
-            EndDate = endDate;
             CurrencyCode = (AvailableCurrencies)Enum.Parse(typeof(AvailableCurrencies), currencyCode);
-            exchangeRates = new ExchangeRates(CurrencyCode, StartDate, EndDate);
+            exchangeRates = new ExchangeRates(CurrencyCode, startDate, endDate);
+
+            StartDate = exchangeRates.StartDate;
+            EndDate = exchangeRates.EndDate;
         }
     }
 }
